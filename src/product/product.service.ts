@@ -24,7 +24,7 @@ export class ProductService {
   }
 
   async findOne(id: string): Promise<Product> {
-    return this.productModel.findOne({_id: { $in: id }}).populate('category').populate('brand');;
+    return this.productModel.findOne({_id: { $in: id }}).populate('category').populate('brand');
   }
 
   async filterProduct(filterProductDto:FilterProductDto): Promise<Product[]>{

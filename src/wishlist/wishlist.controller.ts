@@ -66,6 +66,25 @@ export class WishlistController {
     return this.wishlistService.findAll();
   }
 
+  @ApiBearerAuth('JWT-auth')
+  @UseGuards(JwtGuard)
+  @Get('getWishlist')
+  async findWishlist(
+    @Req() req: Request, 
+    @Res() res: Response, @Param('id') id: string) {
+
+    const userId = req['user']['_id'];
+    const user = await this.usersService.findOne(userId);
+
+    const wish = await this.wishlistService.findWishlistWithProducts(user.wishlistId);
+
+    if(!wish){
+      return res.status(HttpStatus.NOT_FOUND).json({message:`No tienes productos agregados a tu wishlist`})
+    }
+    
+    res.status(HttpStatus.OK).json({data:wish})
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.wishlistService.findOne(id);

@@ -34,6 +34,10 @@ export class WishlistService {
     return this.wishModel.findById(id).exec();
   }
 
+  findWishlistWithProducts(id: any){
+    return this.wishModel.findById(id).populate({path:'productIds', populate:{path:'category'}});
+  }
+
   update(id: number, updateWishlistDto: UpdateWishlistDto) {
     return `This action updates a #${id} wishlist`;
   }
